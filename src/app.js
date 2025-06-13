@@ -1,7 +1,16 @@
 const express = require('express');
 const app = express();
 
-app.use('/', require('./routes'));
+// Middleware to parse JSON requests
+app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Test route
+app.get('/', (req, res) => {
+  res.send('Server is running and will not exit until manually stopped');
+});
+
+// Start the server and keep it running
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running at http://localhost:${PORT}`);
+});
