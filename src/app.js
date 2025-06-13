@@ -7,6 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const connectDB = require('./config/db');
+connectDB();
+
 app.get('/', (req, res) => res.send('API is running'));
 
 const PORT = process.env.PORT || 5000;
