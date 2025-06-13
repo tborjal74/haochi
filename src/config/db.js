@@ -1,13 +1,32 @@
-const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config();
 
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('MongoDB connected');
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
+const MongoClient = require('mongo').MongoClient;
+
+let database;
+
+const initDb = (callback) => {
+    if(database) {
+        console.log('Db is already initialized');
+        return callback(null, database);
+    }
+    MongoClient.connect(process.env.MONGODB_URI)
+    .then((client)=> {
+        database = client;
+        callback(null, database);
+    })
+    .catch((err)=> {
+        callback(err);
+    });
 };
 
-module.exports = connectDB;
+const getDatabase = () => {
+        if(!database) {
+        throw Error('Database not initialized')
+    }
+    return database;
+};
+
+module.exports = {
+    initDb, getDatabase
+}
