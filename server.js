@@ -1,5 +1,5 @@
 const express = require('express');
-const mondodb = require('./src/config/db');
+const mongodb = require('./src/config/db');
 const app = express();
 
 // Middleware to parse JSON requests
